@@ -1,0 +1,17 @@
+---
+version: "2.1"
+services:
+  radarr:
+    image: ghcr.io/linuxserver/radarr:latest
+    container_name: radarr
+    network_mode: Serveur
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - /home/docker/radarr:/config
+      - /home/emby-data/Films:/movies
+      - /home/downloads/completed/Films:/data/completed/Films
+    ports:
+      - 7878:7878
+    dns: 1.1.1.1
+    restart: unless-stopped

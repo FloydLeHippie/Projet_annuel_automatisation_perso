@@ -1,0 +1,17 @@
+---
+version: "3.3"
+services:
+  Jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: Jackett
+    network_mode: Serveur
+    hostname: "jackett"
+    environment:
+    volumes:
+      - /home/docker/Jackett:/config
+      - /home/Downloads/completed:/downloads
+    ports:
+      - 9117:9117
+    dns: 8.8.8.8
+
+    restart: unless-stopped

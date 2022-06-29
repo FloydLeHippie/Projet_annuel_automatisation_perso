@@ -1,0 +1,15 @@
+version: "2.1"
+services:
+  heimdall:
+    image: linuxserver/heimdall:latest
+    container_name: heimdall
+    network_mode: Serveur
+    hostname: "heimdall"
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - /home/docker/heimdall:/config
+    ports:
+      - 1717:80
+      - 1818:443
+    restart: unless-stopped

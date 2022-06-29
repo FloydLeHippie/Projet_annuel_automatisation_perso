@@ -1,0 +1,23 @@
+---
+version: "3.5"
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    hostname: "jellyfin"
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=Europe/Paris
+      - NVIDIA_VISIBLE_DEVICES=all
+    network_mode: Serveur
+    volumes:
+      - /home/docker/Jellyfin/config:/config
+      - /home/emby-data/Series:/data/tvshows
+      - /home/emby-data/Films:/data/movies
+      - /home/emby-data/Musiques:/data/musics
+    ports:
+      - 8096:8096
+      - 8120:8920
+    restart: "unless-stopped"
+

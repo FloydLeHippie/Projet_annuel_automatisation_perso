@@ -1,0 +1,17 @@
+version: "2.1"
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    network_mode: Serveur
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - /home/docker/sonarr/config:/config
+      - /home/emby-data/Series:/tv
+      - /home/downloads/completed/Series:/data/completed
+    dns: 8.8.8.8
+    ports:
+      - 8989:8989
+
+    restart: unless-stopped
