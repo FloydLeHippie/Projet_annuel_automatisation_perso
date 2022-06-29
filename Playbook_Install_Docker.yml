@@ -1,0 +1,110 @@
+---
+- hosts: Node1
+  become: true
+
+  tasks:
+    - name: Installation d'aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Installation des paquets nécessaire
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Ajout de la clé GPG apt Docker
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: Ajout du dépot Docker
+      apt_repository:
+        repo: deb https://download.docker.com/linux/debian bullseye stable
+        state: present
+
+    - name: Installation de docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Installation du module Python pour Docker
+      pip:
+        name: docker
+    
+    - name: Installation Docker-Compose
+      pip:
+        name: docker-compose
+
+#    - name: "Run a shell command on a remote host"
+ #     shell: docker network create -d bridge Serveur
+    
+    
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/docker-compose.nextcloud.yml
+               dest: /home/Projet_Ansible/Docker
+
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/docker-compose.nginxproxymanager.yml
+               dest: /home/Projet_Ansible/Docker
+
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/docker-compose.transmission.yml
+               dest: /home/Projet_Ansible/Docker
+
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/docker-compose.radarr.yml
+               dest: /home/Projet_Ansible/Docker
+
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/docker-compose.sonarr.yml
+               dest: /home/Projet_Ansible/Docker
+
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/docker-compose.jackett.yml
+               dest: /home/Projet_Ansible/Docker
+
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/docker-compose.netdata.yml
+               dest: /home/Projet_Ansible/Docker
+
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/docker-compose.heimdall.yml
+               dest: /home/Projet_Ansible/Docker
+
+    - name: Envoi des fichiers docker-compose
+      template:
+               src: /home/Projet_Ansible/Docker/.env
+               dest: /home/Projet_Ansible/Docker
+
+
+    - name: Déploiement des conteneurs Docker
+      community.docker.docker_compose:
+        project_src: /home/Projet_Ansible/Docker
+        files:
+        - docker-compose.nextcloud.yml
+        - docker-compose.nginxproxymanager.yml
+        - docker-compose.heimdall.yml
+        - docker-compose.netdata.yml
+        - docker-compose.radarr.yml
+        - docker-compose.sonarr.yml
+        - docker-compose.transmission.yml
+        - docker-compose.jackett.yml
